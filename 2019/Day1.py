@@ -3,11 +3,13 @@ import os
 import math
 from ngu import read_file
 
+
 def calculate(result, num):
-    return result + math.floor((int(num)/3)) -2
+    return result + math.floor((int(num)/3)) - 2
+
 
 def calculate_rescursive(result, payload):
-    new_payload = math.floor((int(payload)/3)) -2
+    new_payload = math.floor((int(payload)/3)) - 2
     if new_payload >= 0:
         result = result + new_payload
         return calculate_rescursive(result, new_payload)
@@ -21,7 +23,6 @@ def part1(content):
         result = calculate(result, num)
 
     print("Part 1: {}".format(result))
-
 
 
 def part2(content):

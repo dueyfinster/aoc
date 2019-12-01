@@ -2,6 +2,7 @@
 import os
 from ngu import read_file
 
+
 def main():
     content = read_file(2)
 
