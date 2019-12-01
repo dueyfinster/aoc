@@ -1,17 +1,9 @@
 #!/usr/bin/env python3
 import os
-
-def read_file(filename):
-    with open(filename) as f:
-        content = f.readlines()
-    #content = [int(x.strip()) for x in content]
-    return content
-
+from ngu import read_file
 
 def main():
-    dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "input/day2.txt")
-    content = read_file(filename)
+    content = read_file(2)
 
 
 if __name__ == '__main__':

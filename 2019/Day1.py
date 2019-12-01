@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 import os
 import math
-
-def read_file(filename):
-    with open(filename) as f:
-        content = f.readlines()
-    content = [int(x.strip()) for x in content]
-    return content
-
+from ngu import read_file
 
 def calculate(result, num):
     return result + math.floor((int(num)/3)) -2
@@ -38,9 +32,7 @@ def part2(content):
 
 
 def main():
-    dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "input/day1.txt")
-    content = read_file(filename)
+    content = read_file(1)
     part1(content)
     part2(content)
 
