@@ -26,7 +26,7 @@ def part1(content):
     for num in content:
         result = calculate(result, num)
 
-    print(result)
+    print("Part 1: {}".format(result))
 
 
 
@@ -34,7 +34,7 @@ def part2(content):
     total_result = 0
     for num in content:
         total_result = total_result + calculate_rescursive(0, num)
-    print(total_result)
+    print("Part 2: {}".format(total_result))
 
 
 def main():
