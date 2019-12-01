@@ -38,7 +38,8 @@ def part2(content):
 
 
 def main():
-    filename = os.path.abspath("2019/input/day1.txt")
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "input/day1.txt")
     content = read_file(filename)
     part1(content)
     part2(content)
