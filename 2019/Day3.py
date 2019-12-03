@@ -7,7 +7,7 @@ def manhattan_dist(pos):
     return abs(pos[0]) + abs(pos[1])
 
 
-def convert_to_coords(positions, last_pos, pos_to_calculate):
+def convert_to_coords(positions, last_pos, pos_to_calculate, distance):
     movement = int(re.sub("R|L|U|D", "", pos_to_calculate))
     x, y = last_pos
     for _ in range(0, abs(movement)):
@@ -25,30 +25,47 @@ def convert_to_coords(positions, last_pos, pos_to_calculate):
             y = y - 1
         new_pos = (x, y)
         positions.add(new_pos)
+        distance = distance + 1
 
-    return new_pos
+    return new_pos, distance
 
 
-def calculate_positions(wire):
+def calculate_positions(wire, distances):
     positions = set()
     start_pos = (0, 0)
+    distance = 0
     for pos_to_calc in wire:
-        curr_pos = convert_to_coords(positions, start_pos, pos_to_calc)
+        curr_pos, distance = convert_to_coords(
+            positions, start_pos, pos_to_calc, distance)
         start_pos = curr_pos
+        distances[curr_pos] = distance
 
     return positions
 
 
 def part1(wire1, wire2):
-    w1_positions = calculate_positions(wire1)
-    w2_positions = calculate_positions(wire2)
+    w1_positions = calculate_positions(wire1, {})
+    w2_positions = calculate_positions(wire2, {})
     crossings = w1_positions.intersection(w2_positions)
     man_distances = [manhattan_dist(pos) for pos in crossings]
     return min(man_distances)
 
 
 def part2(wire1, wire2):
-    pass
+    lowest_cost_crossing = 0
+    w1_distances = {}
+    w1_positions = calculate_positions(wire1, w1_distances)
+    w2_distances = {}
+    w2_positions = calculate_positions(wire2, w2_distances)
+    crossings = w1_positions.intersection(w2_positions)
+
+    crossed_dist = {}
+
+    for crossing in crossings:
+        # TODO
+        print(w1_distances[crossing])
+
+    return lowest_cost_crossing
 
 
 def main():
