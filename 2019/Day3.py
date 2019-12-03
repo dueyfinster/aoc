@@ -29,23 +29,21 @@ def convert_to_coords(positions, last_pos, pos_to_calculate):
     return new_pos
 
 
+def calculate_positions(wire):
+    positions = set()
+    start_pos = (0, 0)
+    for pos_to_calc in wire:
+        curr_pos = convert_to_coords(positions, start_pos, pos_to_calc)
+        start_pos = curr_pos
+
+    return positions
+
+
 def part1(wire1, wire2):
-    w1_positions = set()
-    w1_start_pos = (0, 0)
-    for pos_to_calc in wire1:
-        curr_pos = convert_to_coords(w1_positions, w1_start_pos, pos_to_calc)
-        w1_start_pos = curr_pos
-
-    w2_positions = set()
-    w2_start_pos = (0, 0)
-    for pos_to_calc in wire2:
-        curr_pos = convert_to_coords(w2_positions, w2_start_pos, pos_to_calc)
-        w2_positions.add(curr_pos)
-        w2_start_pos = curr_pos
-
+    w1_positions = calculate_positions(wire1)
+    w2_positions = calculate_positions(wire2)
     crossings = w1_positions.intersection(w2_positions)
     man_distances = [manhattan_dist(pos) for pos in crossings]
-    print(man_distances)
     return min(man_distances)
 
 
