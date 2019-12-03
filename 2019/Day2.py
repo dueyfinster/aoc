@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-import os
 from ngu import read_file
 
 
-def part1(content):
+def part1(content, noun=12, verb=2):
+    content[1] = noun
+    content[2] = verb
+
     for i in range(0, len(content), 4):
-        opcode = int(content[i])
-        pos1 = int(content[i+1])
-        pos2 = int(content[i+2])
-        result_pos = int(content[i+3])
-        val1 = int(content[pos1])
-        val2 = int(content[pos2])
+        opcode = content[i]
+        pos1 = content[i+1]
+        pos2 = content[i+2]
+        result_pos = content[i+3]
+        val1 = content[pos1]
+        val2 = content[pos2]
 
         if opcode == 1:
             content[result_pos] = val1 + val2
@@ -25,9 +27,7 @@ def part2(orig_content):
     for i in range(12, 99):
         for x in range(2, 99):
             content = orig_content.copy()
-            content[1] = i
-            content[2] = x
-            result = part1(content)[0]
+            result = part1(content, i, x)[0]
 
             if result == answer_sought:
                 print("Part 2 verb: {} noun: {}".format(i, x))
@@ -35,13 +35,10 @@ def part2(orig_content):
 
 
 def main():
-    p1_content = read_file(2, True)
+    content = read_file(2)[0].split(",")
+    p1_content = [int(x) for x in content]
     p2_content = p1_content.copy()
 
-    p1_content[1] = 12
-    p1_content[2] = 2
-
-    # Replace incorrect valeus from input
     p1_result = part1(p1_content)[0]
     print("Part 1: {}".format(p1_result))
     p2_result = part2(p2_content)
