@@ -20,7 +20,6 @@ def more_than_two_adjacent(candidate):
     nums = [int(i) for i in str(candidate)]
     li = Counter(nums)
 
-    # TODO: not working yet
     if 2 < max(li.values()) and 2 not in li.values():
         last_num = nums[0]
         streak = 0
