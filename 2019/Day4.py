@@ -21,9 +21,17 @@ def more_than_two_adjacent(candidate):
     li = Counter(nums)
 
     # TODO: not working yet
-    if 2 not in li.values():
-        for i in li:
-            if li[i] > 2:
+    if 2 < max(li.values()) and 2 not in li.values():
+        last_num = nums[0]
+        streak = 0
+        for i in range(1, len(nums)):
+            if last_num == nums[i]:
+                streak = streak + 1
+            else:
+                streak = 0
+            last_num = nums[i]
+
+            if streak >= 2:
                 return True
 
     return False
@@ -42,11 +50,12 @@ def part1(start, end):
 
 
 def part2(candidates):
+    new_cand = []
     for cand in candidates:
-        if more_than_two_adjacent(cand):
-            candidates.remove(cand)
+        if not more_than_two_adjacent(cand):
+            new_cand.append(cand)
 
-    return len(candidates)
+    return len(new_cand)
 
 
 def main():
