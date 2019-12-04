@@ -4,10 +4,7 @@ from collections import Counter
 
 
 def all_digits_increasing(nums):
-    if nums != sorted(nums):
-        return False
-
-    return True
+    return nums == sorted(nums)
 
 
 def repeated_nums_adjacent(nums):
@@ -16,6 +13,19 @@ def repeated_nums_adjacent(nums):
         if last_num == num:
             return True
         last_num = num
+    return False
+
+
+def more_than_two_adjacent(candidate):
+    nums = [int(i) for i in str(candidate)]
+    li = Counter(nums)
+
+    # TODO: not working yet
+    if 2 not in li.values():
+        for i in li:
+            if li[i] > 2:
+                return True
+
     return False
 
 
@@ -28,19 +38,23 @@ def part1(start, end):
             if repeated_nums_adjacent(nums):
                 candidates.append(number)
 
+    return len(candidates), candidates
+
+
+def part2(candidates):
+    for cand in candidates:
+        if more_than_two_adjacent(cand):
+            candidates.remove(cand)
+
     return len(candidates)
-
-
-def part2(start, end):
-    pass
 
 
 def main():
     content = read_file(4)[0].split('-')
     start, end = int(content[0]), int(content[1])
-    p1_result = part1(start, end)
+    p1_result, candidates = part1(start, end)
     print("Part 1: {}".format(p1_result))
-    p2_result = part2(start, end)
+    p2_result = part2(candidates)
     print("Part 2: {}".format(p2_result))
 
 
