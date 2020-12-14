@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from ngu import read_file
+
 
 def process_input(content):
     pass
