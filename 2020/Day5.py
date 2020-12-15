@@ -74,18 +74,28 @@ def part1(data):
     seat_ids = [seat['seat_id'] for seat in seats]
     result = max(seat_ids)
     print("Part 1: {}".format(str(result)))
+    return seat_ids
 
 
-def part2(data):
-    pass
-    # print("Part 2: {}".format(str(result)))
+def part2(seat_ids):
+    full_seat_li = set(range(min(seat_ids), max(seat_ids)))
+    seat_ids = set(seat_ids)
+
+    diff = full_seat_li.symmetric_difference(seat_ids)
+
+    result = 0
+    for num in diff:
+        if num-1 in seat_ids and num+1 in seat_ids:
+            result = num
+
+    print("Part 2: {}".format(str(result)))
 
 
 def main():
     content = read_file(5)
     data = process_input(content)
-    part1(data)
-    part2(data)
+    seat_ids = part1(data)
+    part2(seat_ids)
 
 
 if __name__ == '__main__':
