@@ -1,0 +1,32 @@
+pipeline:
+  restore-cache:
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - .gradle/caches
+      - .gradle/wrapper
+    volumes:
+      - /tmp/cache:/cache
+
+  build:
+    image: gradle:jdk16
+    commands:
+      - pwd
+      - ./gradlew assemble
+  test:
+    image: gradle:jdk16
+    volumes:
+      - name: gradle
+        path: /home/gradle/.gradle
+    commands:
+      - ./gradlew --stacktrace --info check
+
+  rebuild-cache:
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - .gradle/caches
+      - .gradle/wrapper
+    volumes:
+      - /tmp/cache:/cache
+

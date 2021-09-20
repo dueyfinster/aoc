@@ -1,0 +1,16 @@
+.metadata
+.classpath
+RemoteSystemsTempFiles
+bin/
+build/
+tmp/
+target/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.gradle
+.idea/
