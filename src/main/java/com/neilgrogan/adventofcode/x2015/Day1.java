@@ -1,13 +1,15 @@
+package com.neilgrogan.adventofcode.x2015;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-class Day1 {
+public class Day1 {
 
     public static void main(String[] args) throws IOException {
         Day1 d1 = new Day1();
-        String input = readInFile();
+        String input = Utils.readInFile("Day1").get(0);
         System.out.println("Day 1, Part 1: " + d1.Part1(input));
         System.out.println("Day 1, Part 2: " + d1.Part2(input));
     }
