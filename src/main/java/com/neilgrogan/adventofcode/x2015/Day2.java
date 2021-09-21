@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Day2 {
 
@@ -14,23 +15,22 @@ class Day2 {
         Day2 d2 = new Day2();
         List<String> input = Utils.readInFile("Day2");
         List<Dimension> dimensions = d2.processInput(input);
-        System.out.println("Day 1, Part 1: " + d2.Part1(dimensions));
-        System.out.println("Day 1, Part 2: " + d2.Part2(dimensions));
+        System.out.println("Day 2, Part 1: " + d2.Part1(dimensions));
+        System.out.println("Day 2, Part 2: " + d2.Part2(dimensions));
     }
 
 
     public int Part1(List<Dimension> dimensions) {
-        int res = dimensions.stream().mapToInt(x -> x.getTotal()).sum();
-        return res;
+        return dimensions.stream().mapToInt(Dimension::getTotalWrappingPaperNeeded).sum();
     }
 
     public int Part2(List<Dimension> dimensions) {
-        return 0;
+        return dimensions.stream().mapToInt(Dimension::getTotalRibbonRequired).sum();
     }
 
 
     public List<Dimension> processInput(List<String> input){
-        List<Dimension> dimensions = new ArrayList<Dimension>();
+        List<Dimension> dimensions = new ArrayList<>();
         Pattern p = Pattern.compile("([\\d]{1,3})[x]([\\d]{1,3})[x]([\\d]{1,3})");
 
         for(String line : input){
@@ -64,13 +64,25 @@ class Day2 {
             return Arrays.stream(sides).map(x -> x * 2).sum();
         }
 
-        public int getTotal(){
+        public int getTotalWrappingPaperNeeded(){
             int sumSides = getSurfaceArea();
             int slack = Arrays.stream(sides)
                     .min()
                     .getAsInt();
 
             return sumSides + slack;
+        }
+
+        public int getTotalRibbonRequired(){
+            List<Integer> sorted = Stream.of(length,width,height)
+                    .sorted().collect(Collectors.toList()).subList(0, 2);
+
+            int wrapRibbonLength = sorted.stream().mapToInt(x -> x * 2).sum();
+
+            // Calc length of bow (l*w*h)
+            int bowRibbonLength = length*width*height;
+
+            return wrapRibbonLength + bowRibbonLength;
         }
     }
 }

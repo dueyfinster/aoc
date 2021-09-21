@@ -20,7 +20,7 @@ class Day2Tests {
     @DisplayName("2*3*4 Shape Total is = 58")
     void part1DimensionTotalAreaTest() {
         Day2.Dimension dim = new Day2.Dimension(2,3,4);
-        assertEquals(58, dim.getTotal());
+        assertEquals(58, dim.getTotalWrappingPaperNeeded());
     }
 
     @Test
@@ -32,4 +32,26 @@ class Day2Tests {
         assertEquals(1606483, d2.Part1(dimensions));
     }
 
+    @Test
+    @DisplayName("2*3*4 Shape Dimensions is = 34")
+    void part2DimensionRibbonTest() {
+        Day2.Dimension dim = new Day2.Dimension(2,3,4);
+        assertEquals(34, dim.getTotalRibbonRequired());
+    }
+
+    @Test
+    @DisplayName("1*1*10 Shape Dimensions is = 14")
+    void part2DimensionRibbonTest2() {
+        Day2.Dimension dim = new Day2.Dimension(1,1,10);
+        assertEquals(14, dim.getTotalRibbonRequired());
+    }
+
+    @Test
+    @DisplayName("Input File = 3842356")
+    void part2ActualResult() throws IOException {
+        Day2 d2 = new Day2();
+        List<String> input = Utils.readInFile("Day2");
+        List<Day2.Dimension> dimensions = d2.processInput(input);
+        assertEquals(3842356, d2.Part2(dimensions));
+    }
 }
