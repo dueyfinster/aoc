@@ -8,43 +8,60 @@ public class Day3 {
     public static void main(String[] args) throws IOException {
         Day3 d3 = new Day3();
         List<String> input = Utils.readInFile("Day3");
-        List<CoOrd> coOrds = d3.processInput(input);
-        System.out.println("Day 3, Part 1: " + d3.Part1(coOrds));
-        System.out.println("Day 3, Part 2: " + d3.Part2(coOrds));
-    }
 
-    public int Part1(List<CoOrd> coOrds) {
-        Set<CoOrd> set = new HashSet<>(coOrds);
-        //int[] arrays = coOrds.stream().map(CoOrdinate::getArray).distinct();
-       // return (int) coOrds.stream().map(CoOrdinate::getArray).distinct().count();
-        return set.size();
-    }
-
-    public int Part2(List<Day3.CoOrd> coOrds) {
-        return 0;
-    }
-
-
-    public List<CoOrd> processInput(List<String> input){
-        List<CoOrd> coOrds = new ArrayList<>();
         char[] firstLine = input.get(0).toCharArray();
+        System.out.println("Day 3, Part 1: " + d3.Part1(firstLine));
+        System.out.println("Day 3, Part 2: " + d3.Part2(firstLine));
+    }
+
+    public int Part1(char[] firstLine) {
+        Set<CoOrd> coOrds = new HashSet<>();
         CoOrd coOrd = new CoOrd(0, 0);
         coOrds.add(coOrd);
 
         for(char c : firstLine){
-            coOrd = new CoOrd(coOrd.getX(), coOrd.getY());
-            if(c == '^'){
-                coOrd.increaseY();
-            }else if(c == 'v'){
-                coOrd.decreaseY();
-            }else if(c == '>'){
-               coOrd.increaseX();
-            }else if(c == '<'){
-                coOrd.decreaseX();
-            }
+            coOrd = processMove(coOrd, c);
             coOrds.add(coOrd);
         }
-        return coOrds;
+
+        return coOrds.size();
+    }
+
+    public int Part2(char[] firstLine) {
+        Set<CoOrd> santaCoOrds =  new HashSet<>();
+        Set<CoOrd> roboSantaCoOrds =  new HashSet<>();
+        CoOrd sCoOrd = new CoOrd(0, 0);
+        CoOrd rsCoOrd = new CoOrd(0, 0);
+        santaCoOrds.add(sCoOrd);
+        roboSantaCoOrds.add(rsCoOrd);
+
+        for(int i=0; i< firstLine.length; i++){
+            if(i % 2 ==0){
+                sCoOrd = processMove(sCoOrd, firstLine[i]);
+                santaCoOrds.add(sCoOrd);
+            }else{
+                rsCoOrd = processMove(rsCoOrd, firstLine[i]);
+                roboSantaCoOrds.add(rsCoOrd);
+            }
+        }
+
+        santaCoOrds.addAll(roboSantaCoOrds);
+
+        return santaCoOrds.size();
+    }
+
+
+    private CoOrd processMove(CoOrd coOrd, char c){
+        coOrd = new CoOrd(coOrd.getX(), coOrd.getY());
+        switch (c) {
+            case '^' -> coOrd.increaseY();
+            case 'v' -> coOrd.decreaseY();
+            case '>' -> coOrd.increaseX();
+            case '<' -> coOrd.decreaseX();
+            default -> {
+            }
+        }
+        return coOrd;
     }
 
     public class CoOrd{
