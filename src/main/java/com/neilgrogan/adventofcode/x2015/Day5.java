@@ -18,7 +18,7 @@ public class Day5 {
     public int part1(List<String> inputs){
         int count = 0;
         for(String input : inputs){
-            if(contains3Vowels(input) && containsRepeatingChars(input) && missingbadChars(input)){
+            if(contains3Vowels(input) && containsTwoRepeatingCharsInARow(input) && missingbadChars(input)){
                 count++;
             }
         }
@@ -26,7 +26,13 @@ public class Day5 {
     }
 
     public int part2(List<String> inputs){
-        return 0;
+        int count = 0;
+        for(String input : inputs){
+            if(containsTwoRepeatingCharsSpacedApart(input) && containsSameLetterWithOneSpaceBetween(input)){
+                count++;
+            }
+        }
+        return count;
     }
 
     private boolean contains3Vowels(String input){
@@ -39,8 +45,8 @@ public class Day5 {
         return count >= 3;
     }
 
-    private boolean containsRepeatingChars(String input){
-        Pattern repeatChars = Pattern.compile("([a-z])(\\1)+");
+    private boolean containsTwoRepeatingCharsInARow(String input){
+        Pattern repeatChars = Pattern.compile("(.)\\1+");
 
         Matcher matchRepeatChars = repeatChars.matcher(input);
 
@@ -59,4 +65,26 @@ public class Day5 {
         }
         return true;
     }
+
+
+    private boolean containsTwoRepeatingCharsSpacedApart(String input){
+        Pattern repeatChars = Pattern.compile("(..).*\\1");
+
+        Matcher matchRepeatChars = repeatChars.matcher(input);
+
+        long count = matchRepeatChars.results().count();
+
+        return count >= 1;
+    }
+
+    private boolean containsSameLetterWithOneSpaceBetween(String input){
+        Pattern repeatChars = Pattern.compile("(.).\\1");
+
+        Matcher matchRepeatChars = repeatChars.matcher(input);
+
+        long count = matchRepeatChars.results().count();
+
+        return count >= 1;
+    }
+
 }

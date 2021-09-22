@@ -59,5 +59,44 @@ class Day5Tests {
         assertEquals(255, d5.part1(input));
     }
 
+    @Test
+    @DisplayName("qjhvhtzxzqqjkmpb = 1")
+    void part2NiceStringOne() {
+        Day5 d5 = new Day5();
+        List<String> inputs = List.of("qjhvhtzxzqqjkmpb");
+        assertEquals(1, d5.part2(inputs));
+    }
+
+    @Test
+    @DisplayName("xxyxx = 1")
+    void part2NiceStringTwo() {
+        Day5 d5 = new Day5();
+        List<String> inputs = List.of("xxyxx");
+        assertEquals(1, d5.part2(inputs));
+    }
+
+    @Test
+    @DisplayName("uurcxstgmygtbstg = 0")
+    void part2NaughtyExampleOne() {
+        Day5 d5 = new Day5();
+        List<String> inputs = List.of("uurcxstgmygtbstg");
+        assertEquals(0, d5.part2(inputs));
+    }
+
+    @Test
+    @DisplayName("ieodomkazucvgmuy = 0")
+    void part2NaughtyExampleTwo() {
+        Day5 d5 = new Day5();
+        List<String> inputs = List.of("ieodomkazucvgmuy");
+        assertEquals(0, d5.part2(inputs));
+    }
+
+    @Test
+    @DisplayName("Input File = 55")
+    void part2ActualResult() throws IOException {
+        Day5 d5 = new Day5();
+        List<String> input = Utils.readInFile("Day5");
+        assertEquals(55, d5.part2(input));
+    }
 
 }
