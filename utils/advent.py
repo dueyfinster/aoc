@@ -3,23 +3,29 @@ from os.path import dirname, realpath
 import csv
 import sys
 
+
 def log(s, *a):
-	sys.stderr.write('[advent] ' + s.format(*a))
-	sys.stderr.flush()
+    sys.stderr.write('[advent] ' + s.format(*a))
+    sys.stderr.flush()
+
 
 def setup(year, day):
-	global YEAR
-	global DAY
-	global SESSION
+    global YEAR
+    global DAY
 
-	if not (year >= 2015 and 1 <= day <= 25):
-		log('ERROR: wrong year and/or day set!\n')
-		sys.exit(1)
+    if not (year >= 2015 and 1 <= day <= 25):
+        log('ERROR: wrong year and/or day set!\n')
+        sys.exit(1)
 
-	YEAR = year
-	DAY  = day
+    YEAR = year
+    DAY = day
 
-def read_file():
+
+def read_file(fname=None, mode='r'):
+
+    if fname is not None:
+        return open(fname, mode)
+
     filepath = realpath(__file__)
 
     dir_of_file = dirname(filepath)
@@ -27,10 +33,11 @@ def read_file():
 
     filename = "{}/input/day{}.txt".format(YEAR, DAY)
     full_path = os.path.join(parent_dir_of_file, filename)
-    with open(full_path) as f:
-        content = f.readlines()
-        content = [x.strip() for x in content]
-    return content
+    file = open(full_path, mode)
+    
+    return file
+
 
 def print_answer(part, answer):
-	print('{} Day {} Part {}:'.format(YEAR, DAY, part), answer)
+    print('{}-D{}-P{}:'.format(YEAR, DAY, part), answer)
+

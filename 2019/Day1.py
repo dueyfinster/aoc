@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
 import math
-from utils import advent
+from utils import advent, helper
+
 
 advent.setup(2019, 1)
 
@@ -36,7 +37,8 @@ def part2(content):
 
 
 def main():
-    content = advent.read_file()
+    file = advent.read_file()
+    content = helper.get_lines(file)
     part1(content)
     part2(content)
 
