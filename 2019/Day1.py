@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import os
 import math
-from ngu import read_file
+from utils import advent
 
+advent.setup(2019, 1)
 
 def calculate(result, num):
     return result + math.floor((int(num)/3)) - 2
@@ -22,18 +23,18 @@ def part1(content):
     for num in content:
         result = calculate(result, num)
 
-    print("Part 1: {}".format(result))
+    advent.print_answer(1, result)
 
 
 def part2(content):
     total_result = 0
     for num in content:
         total_result = total_result + calculate_rescursive(0, num)
-    print("Part 2: {}".format(total_result))
+    advent.print_answer(1, total_result)
 
 
 def main():
-    content = read_file(1)
+    content = advent.read_file()
     part1(content)
     part2(content)
 

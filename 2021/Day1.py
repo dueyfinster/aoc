@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 import math
-from ngu import read_file
+from utils import advent
 from itertools import combinations
 
 
