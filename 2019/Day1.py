@@ -24,6 +24,7 @@ def part1(content):
         result = calculate(result, num)
 
     advent.print_answer(1, result)
+    return result
 
 
 def part2(content):
@@ -31,6 +32,7 @@ def part2(content):
     for num in content:
         total_result = total_result + calculate_rescursive(0, num)
     advent.print_answer(1, total_result)
+    return total_result
 
 
 def main():

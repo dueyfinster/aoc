@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from ngu import read_file
-
+from utils import advent
+advent.setup(2019, 2)
 
 def part1(content, noun=12, verb=2):
     content[1] = noun
@@ -35,14 +35,14 @@ def part2(orig_content):
 
 
 def main():
-    content = read_file(2)[0].split(",")
+    content = advent.read_file()[0].split(",")
     p1_content = [int(x) for x in content]
     p2_content = p1_content.copy()
 
     p1_result = part1(p1_content)[0]
-    print("Part 1: {}".format(p1_result))
+    advent.print_answer(1, p1_result)
     p2_result = part2(p2_content)
-    print("Part 2: {}".format(p2_result))
+    advent.print_answer(2, p2_result)
 
 
 if __name__ == '__main__':
