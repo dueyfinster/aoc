@@ -3,7 +3,7 @@ import os
 from subprocess import call
 
 def list_files():
-    return [each for each in os.listdir("2017") if each.endswith('.py')]
+    return [each for each in os.listdir("aoc*") if each.endswith('.py')]
 
 def run_script(script):
     call(["python", script])
