@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-from ngu import read_file
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils import advent, helper
 import math
 
 
@@ -73,7 +76,8 @@ def part1(data):
                 break
     seat_ids = [seat['seat_id'] for seat in seats]
     result = max(seat_ids)
-    print("Part 1: {}".format(str(result)))
+
+    advent.print_answer(1, result)
     return seat_ids
 
 
@@ -88,11 +92,14 @@ def part2(seat_ids):
         if num-1 in seat_ids and num+1 in seat_ids:
             result = num
 
-    print("Part 2: {}".format(str(result)))
+    advent.print_answer(2, result)
+    return result
 
 
 def main():
-    content = read_file(5)
+    advent.setup(2020,5)
+    file = advent.read_file()
+    content = helper.get_lines(file)
     data = process_input(content)
     seat_ids = part1(data)
     part2(seat_ids)

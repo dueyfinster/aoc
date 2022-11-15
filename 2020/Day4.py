@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-from ngu import read_file
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils import advent, helper
 import re
 MANDATORY_FIELDS = {"ecl", "pid", "eyr", "hcl", "byr", "iyr", "hgt", "cid"}
 
@@ -107,7 +110,7 @@ def part1(data):
         if valid_passport1(passport):
             valid_passports.append(passport)
             result += 1
-    print("Part 1: {}".format(str(result)))
+    advent.print_answer(1, result)
     return valid_passports
 
 
@@ -116,12 +119,14 @@ def part2(passports):
     for passport in passports:
         if valid_passport2(passport):
             result += 1
-    print("Part 2: {}".format(str(result)))
+    advent.print_answer(2, result)
+    return result
 
 
 def main():
-    content = read_file(4)
-    data = process_input(content)
+    advent.setup(2020, 4)
+    file = advent.read_file()
+    data = process_input(helper.get_lines(file))
     valid_passports = part1(data)
     part2(valid_passports)
 
