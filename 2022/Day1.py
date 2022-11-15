@@ -18,7 +18,7 @@ def part2(data):
 
 
 def main():
-    advent.setup(2020,1)
+    advent.setup(2022,1)
     file = advent.read_file()
     nums = helper.get_ints(file)
     part1(nums)
