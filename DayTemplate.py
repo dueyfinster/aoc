@@ -13,7 +13,7 @@ def part1(data):
 
 def part2(data):
     result = None
-    advent.print_answer(1, result)
+    advent.print_answer(2, result)
     return result
 
 
