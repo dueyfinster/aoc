@@ -1,8 +1,8 @@
 import unittest
 import os
 import sys
-from utils import advent, helper
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils import advent, helper
 import Day1, Day2
 
 class Day1Tests(unittest.TestCase):

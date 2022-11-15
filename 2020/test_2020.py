@@ -2,19 +2,22 @@ import unittest
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-#from . import Day1, Day2
+from utils import advent, helper
+import Day1
 
 class Day1Tests(unittest.TestCase):
 
-    @unittest.skip("Not Implemented")
+    @classmethod
+    def setUpClass(self):
+        advent.setup(2020, 1)
+        file = advent.read_file()
+        self.nums = helper.get_ints(file)
+
     def test_day_one_part_one(self):
-        pass
-        #self.assertEqual(Day1.part_one(), 1223)
+        self.assertEqual(Day1.part1(self.nums), 960075)
     
-    @unittest.skip("Not Implemented")
     def test_day_two_part_one(self):
-        pass
-        #self.assertEqual(Day1.part_two(), 1284)
+        self.assertEqual(Day1.part2(self.nums), 212900130)
 
 
 
