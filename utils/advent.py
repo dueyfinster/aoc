@@ -9,7 +9,7 @@ def log(s, *a):
     sys.stderr.flush()
 
 
-def setup(year, day):
+def setup(year: int, day: int):
     global YEAR
     global DAY
 
@@ -38,6 +38,8 @@ def read_file(fname=None, mode='r'):
     return file
 
 
-def print_answer(part, answer):
+def print_answer(part: int, answer):
+    if part < 1 or part > 2:
+        raise ValueError("Not a valid part")
     print('{}-D{}-P{}:'.format(YEAR, DAY, part), answer)
 
