@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
-import re
-from ngu import read_file
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils import advent, helper
 from pprint import pprint
 
 
@@ -28,7 +29,8 @@ def nav_slopes(right, down, data):
 
 def part1(data):
     result = nav_slopes(3, 1, data)
-    print("Part 1: {}".format(str(result)))
+    advent.print_answer(1, result)
+    return result
 
 
 def part2(data):
@@ -39,12 +41,14 @@ def part2(data):
     r5 = nav_slopes(1, 2, data)
 
     result = r1 * r2 * r3 * r4 * r5
-    print("Part 2: {}".format(str(result)))
+    advent.print_answer(2, result)
+    return result
 
 
 def main():
-    content = read_file(3)
-    data = process_input(content)
+    advent.setup(2020, 3)
+    file = advent.read_file()
+    data = helper.get_lines(file)
     part1(data)
     part2(data)
 

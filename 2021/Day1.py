@@ -1,29 +1,26 @@
 #!/usr/bin/env python3
 import os
-import math
-from utils import advent
-from itertools import combinations
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils import advent, helper
 
 
-def part1(content):
-   # combos = list(combinations(content, 2))
-   # x, y = list(filter(lambda val: sum(val) == 2020, combos))[0]
-   # result = x * y
-
-    print("Part 1: {}".format(str(result)))
+def part1(data):
+    result = None
+    advent.print_answer(1, result)
+    return result
 
 
-def part2(content):
-   # combos = list(combinations(content, 3))
-   # x, y, z = list(filter(lambda val: sum(val) == 2020, combos))[0]
-   # result = x * y * z
-
-    print("Part 2: {}".format(str(result)))
+def part2(data):
+    result = None
+    advent.print_answer(1, result)
+    return result
 
 
 def main():
-    content = read_file(1)
-    nums = list(map(int, content))
+    advent.setup(2021,1)
+    file = advent.read_file()
+    nums = helper.get_ints(file)
     part1(nums)
     part2(nums)
 
