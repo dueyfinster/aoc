@@ -1,37 +1,28 @@
 #!/usr/bin/env python3
-from ngu import read_file
-
-
-def process_input(content):
-    answers = []
-    answer = ""
-
-    for i, line in enumerate(content):
-        if line != '':
-            answer = answer + ' ' + line
-
-        if line == '' or i == (len(content)-1):
-            answers.append(answer.strip())
-            answer = ""
-
-    return answers
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils import advent, helper
 
 
 def part1(data):
-    pass
-    #print("Part 1: {}".format(str(result)))
+    result = None
+    advent.print_answer(1, result)
+    return result
 
 
 def part2(data):
-    pass
-    #print("Part 2: {}".format(str(result)))
+    result = None
+    advent.print_answer(1, result)
+    return result
 
 
 def main():
-    content = read_file(6)
-    data = process_input(content)
-    part1(data)
-    part2(data)
+    advent.setup(2020,6)
+    file = advent.read_file()
+    nums = helper.get_ints(file)
+    part1(nums)
+    part2(nums)
 
 
 if __name__ == '__main__':
