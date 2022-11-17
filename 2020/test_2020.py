@@ -86,15 +86,13 @@ class Day6Tests(unittest.TestCase):
     def setUpClass(self):
         advent.setup(2020, 6)
         file = advent.read_file()
-        self.data = helper.get_sections(file, replace=True)
+        self.data = helper.get_sections(file)
 
     def test_day_six_part_one(self):
         self.assertEqual(Day6.part1(self.data), 6291)
     
-    @unittest.skip("Not done yet")
     def test_day_six_part_two(self):
-        self.data = Day6.part1(self.data) # Needs data from part1
-        self.assertEqual(Day6.part2(self.data), 607)
+        self.assertEqual(Day6.part2(self.data), 3052)
 
 
 
