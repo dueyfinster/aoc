@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import advent, helper
-import Day1, Day2, Day3, Day4, Day5
+import Day1, Day2, Day3, Day4, Day5, Day6
 
 class Day1Tests(unittest.TestCase):
 
@@ -79,6 +79,24 @@ class Day5Tests(unittest.TestCase):
     def test_day_five_part_two(self):
         self.data = Day5.part1(self.data) # Needs data from part1
         self.assertEqual(Day5.part2(self.data), 607)
+
+class Day6Tests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        advent.setup(2020, 6)
+        file = advent.read_file()
+        self.data = helper.get_sections(file, replace=True)
+
+    def test_day_six_part_one(self):
+        self.assertEqual(Day6.part1(self.data), 6291)
+    
+    @unittest.skip("Not done yet")
+    def test_day_six_part_two(self):
+        self.data = Day6.part1(self.data) # Needs data from part1
+        self.assertEqual(Day6.part2(self.data), 607)
+
+
 
 if __name__ == '__main__':
     unittest.main()
