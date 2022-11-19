@@ -14,13 +14,18 @@ def part1(data):
 
     main_keys = ['adj', 'col']
     sub_keys = ['no', 'adj', 'col']
-    nli = []
+    processed = []
+    
 
     for values in iter(li):
        d = dict(zip(main_keys, values[0:2]))
-       d['con'] = tuple(zip(cycle(sub_keys), values[2:]))
-       nli.append(d)
-
+       step = 3
+       nli = []
+       d['con'] = nli
+       for i in range(2, len(values[2:]), step):
+            x = i
+            nli.append(dict(zip(cycle(sub_keys),values[x:x+step])))
+       processed.append(d)
     advent.print_answer(1, result)
     return result
 
