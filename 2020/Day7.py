@@ -7,7 +7,7 @@ import re
 from itertools import cycle
 
 def part1(data):
-    result = None
+    result = 0
     regex = re.compile('(?!bag|bags|contain)(?<![a-zA-Z])[0-9a-zA-Z]+')
 
     li = list(map(lambda s: regex.findall(s), data))
@@ -26,6 +26,12 @@ def part1(data):
             x = i
             nli.append(dict(zip(cycle(sub_keys),values[x:x+step])))
        processed.append(d)
+
+
+    for p in processed:
+        if any(n['adj'] == 'shiny' and n['col'] == 'gold' for n in p['con']):
+            print(p)
+            result+=1
     advent.print_answer(1, result)
     return result
 
