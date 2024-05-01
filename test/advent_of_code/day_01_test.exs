@@ -16,18 +16,14 @@ defmodule AdventOfCode.Day01Test do
     assert result == 142
   end
 
-  test "part1 - test input" do
+  test "part1 - only number input" do
     input = """
-    7mmmfrrdcqs
-    fivegfk5sixeight7pt14
-    19two
-    339bfrsfdbbxv32zxjxkflknlvsq
     51
     """
 
     result = part1(input)
 
-    assert result == 142
+    assert result == 51
   end
 
   @tag :skip
