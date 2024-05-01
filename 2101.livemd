@@ -1,0 +1,223 @@
+<!-- livebook:{"file_entries":[{"name":"2101.txt","type":"attachment"}]} -->
+# Advent of Code 2021 - Day 1 - Sonar Sweep
+
+```elixir
+Mix.install(
+  [
+    {:kino_aoc, git: "https://github.com/ljgago/kino_aoc"}
+  ],
+  force: true
+)
+```
+
+## Introduction
+
+Puzzle: [Sonar Sweep](https://adventofcode.com/2021/day/1)
+
+As the submarine drops below the surface of the ocean, it automatically performs a sonar sweep of the nearby sea floor. On a small screen, the sonar sweep report (your puzzle input) appears: each line is a measurement of the sea floor depth as the sweep looks further and further away from the submarine. Find the number of times the depth increases.
+
+For example, suppose you had the following report:
+
+```
+199
+200
+208
+210
+200
+207
+240
+269
+260
+263
+```
+
+This would be the calculation:
+
+```
+199 (N/A - no previous measurement)
+200 (increased)
+208 (increased)
+210 (increased)
+200 (decreased)
+207 (increased)
+240 (increased)
+269 (increased)
+260 (decreased)
+263 (increased)
+```
+
+In this case tha answer is: 7
+
+## Parser
+
+<!-- livebook:{"attrs":{"day":"1","session_secret":"SESSION","variable":"puzzle_input","year":"2021"},"chunks":null,"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
+
+```elixir
+{:ok, puzzle_input} =
+  KinoAOC.download_puzzle("2021", "1", System.fetch_env!("LB_SESSION"))
+```
+
+### Code
+
+```elixir
+defmodule Parser do
+  def parse(puzzle_input) do
+    puzzle_input
+    |> String.split("\n", trim: true)
+    |> Enum.map(&String.to_integer/1)
+  end
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule ParserTest do
+  use ExUnit.Case, async: true
+  import Parser
+
+  @input "199\n200\n208\n210\n200\n207\n240\n269\n260\n263"
+  @expected [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
+
+  test "parse test" do
+    actual = parse(@input)
+    assert actual == @expected
+  end
+end
+
+ExUnit.run()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Part One
+
+Count the number of times a depth measurement increases from the previous measurement.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartOne do
+  def resolve(input) do
+    IO.puts("--- Part One ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    scan_depth(input, 0)
+  end
+
+  def scan_depth([_], count) do
+    count
+  end
+
+  def scan_depth([prev_depth, new_depth | _] = depths, count) do
+    count = if new_depth > prev_depth, do: count + 1, else: count
+    scan_depth(tl(depths), count)
+  end
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartOneTest do
+  use ExUnit.Case, async: true
+  import PartOne
+
+  @input [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
+  @expected 7
+
+  test "part one" do
+    actual = run(@input)
+    assert actual == @expected
+  end
+end
+
+ExUnit.run()
+```
+
+### Solution
+
+```elixir
+PartOne.resolve(Parser.parse(puzzle_input))
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Part Two
+
+Count the number of times a depth measurement increases from the previous measurement - but use a sliding window of 3 measurements.
+
+With this input:
+
+```
+199  A      
+200  A B    
+208  A B C  
+210    B C D
+200  E   C D
+207  E F   D
+240  E F G  
+269    F G H
+260      G H
+263        H
+```
+
+Start by comparing the first and second three-measurement windows. The measurements in the first window are marked A (199, 200, 208); their sum is 199 + 200 + 208 = 607. The second window is marked B (200, 208, 210); its sum is 618. The sum of measurements in the second window is larger than the sum of the first, so this first comparison **increased**.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartTwo do
+  def resolve(input) do
+    IO.puts("--- Part Two ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    scan_depth_three(input)
+  end
+
+  def scan_depth_three(depths) do
+    Enum.chunk_every(depths, 3, 1)
+    |> Enum.map(&Enum.sum/1)
+    |> PartOne.scan_depth(0)
+  end
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartTwoTest do
+  use ExUnit.Case, async: true
+  import PartTwo
+
+  @input [607, 618, 618, 617, 647, 716, 769, 792]
+  @expected 5
+
+  test "part two" do
+    actual = run(@input)
+    assert actual == @expected
+  end
+end
+
+ExUnit.run()
+```
+
+### Solution
+
+```elixir
+PartTwo.resolve(Parser.parse(puzzle_input))
+```

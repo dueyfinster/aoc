@@ -1,2 +1,2 @@
-# Advent of Code
-Advent of Code - see branches for different languages.
+# aoc-elixir
+Advent of Code using Elixir Livebook

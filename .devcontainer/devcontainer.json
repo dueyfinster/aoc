@@ -1,0 +1,11 @@
+{
+    "image": "ghcr.io/livebook-dev/livebook",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/data,type=bind",
+    "workspaceFolder": "/data",
+    "forwardPorts": [8080],
+    "containerEnv": {
+      "LIVEBOOK_TOKEN_ENABLED": "0",
+      "LIVEBOOK_IP": "0.0.0.0"
+    },
+    "postCreateCommand": "/app/bin/livebook start"
+}
