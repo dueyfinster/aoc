@@ -40,4 +40,16 @@ defmodule AdventOfCode.Day01Test do
 
     assert result == 281
   end
+
+  test "part2 - edge case" do
+    input = """
+    two1nine
+    eightwothree
+    oneight
+    abcone2threexyz
+    """
+    result = part2(input)
+
+    assert result == 143
+  end
 end
