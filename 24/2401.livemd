@@ -1,0 +1,295 @@
+<!-- livebook:{"autosave_interval_s":30,"persist_outputs":true} -->
+
+# Advent of Code 24 - Day 1
+
+```elixir
+Mix.install(
+  [
+    {:kino_aoc, git: "https://github.com/ljgago/kino_aoc"}
+  ],
+  force: true
+)
+```
+
+## Introduction
+
+We get a list of location ID's (left and right) and need to compare the differences.
+
+For example:
+
+```
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+## Parser
+
+<!-- livebook:{"attrs":"eyJhc3NpZ25fdG8iOiJwdXp6bGVfaW5wdXQiLCJkYXkiOiIxIiwic2Vzc2lvbl9zZWNyZXQiOiJBT0NfU0VTU0lPTiIsInllYXIiOiIyMDI0In0","chunks":null,"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
+
+```elixir
+{:ok, puzzle_input} =
+  KinoAOC.download_puzzle("2024", "1", System.fetch_env!("LB_AOC_SESSION"))
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:ok,
+ "77442   88154\n71181   76363\n49755   69158\n38798   22488\n89857   49242\n96168   60034\n68503   43760\n52053   29173\n27070   63754\n78107   13305\n18422   95805\n34555   59209\n52260   83075\n35963   65961\n92308   56524\n25352   19586\n87921   76287\n21112   20450\n40251   20187\n66316   47227\n10872   77651\n78694   67481\n80223   15216\n69732   81168\n38939   38777\n34636   24551\n10066   49751\n21755   21498\n59907   37042\n40042   20430\n10479   30302\n92724   56653\n49261   18139\n14450   41684\n20138   54577\n49196   76287\n78226   77472\n55352   47752\n73181   76363\n88373   44539\n55224   13454\n78343   39913\n50215   26340\n93394   81365\n12421   17637\n30218   22488\n60899   27070\n53443   63193\n78769   76287\n34837   64955\n57703   90260\n84563   61551\n95968   61321\n18237   59051\n88136   22597\n75094   61551\n14017   58846\n18973   79651\n45202   81168\n67888   36454\n58743   65364\n65978   66336\n27877   47227\n23703   90563\n63594   76363\n19101   52928\n49192   16770\n78677   33277\n74303   76324\n56874   47227\n90161   64736\n39443   58067\n59419   76363\n16790   61551\n23505   93360\n70298   20187\n64391   61321\n62270   61551\n12823   57714\n83131   23208\n29372   81168\n21121   63648\n22012   74365\n42673   20187\n81026   63754\n96443   74839\n30527   16770\n88227   80574\n43550   81327\n83170   87067\n97480   59239\n57306   33168\n12562   19586\n70051   69573\n23409   59209\n98618   36335\n55824   77218\n26417   29173\n47973   28702\n88458   23040\n78792   26612\n49946   81708\n80977   82477\n64506   76324\n51584   19586\n74305   17617\n29886   13430\n66682   81168\n25165   48749\n58380   53467\n69518   61551\n13253   54169\n47096   90256\n30095   92342\n53753   74679\n18402   68884\n96146   54906\n78431   82348\n58498   30348\n48373   28719\n84718   49196\n60072   54268\n82045   81168\n11287   73806\n37090   34498\n38432   59686\n13148   69158\n29704   68950\n45645   76324\n68457   60034\n66349   78117\n72212   54196\n16845   53315\n49997   16770\n56793   64874\n27128   43619\n92355   71300\n76013   43778\n20620   81868\n23056   37042\n82567   61327\n13147   79444\n70591   58074\n68310   63193\n36484   52913\n97410   78373\n31951   44983\n65334   30896\n14656   59209\n91768   61551\n56457   27850\n57141   42263\n18561   31760\n75233   81868\n73250   95805\n14002   12467\n42157   47227\n34516   26033\n55035   81168\n13086   73119\n43301   41775\n38864   65779\n95169   31728\n73367   69158\n53500   63193\n81688   63754\n93934   95142\n54841   30896\n66614   76324\n52867   34526\n92062   65386\n74176   79531\n75046   76363\n64084   28284\n17516   91401\n58314   14259\n30184   48803\n82359   33277\n83956   16770\n87246   96540\n66231   34404\n42526   87428\n96228   96903\n70702   63193\n72108   20187\n62377   59209\n72553   10468\n57600   56860\n16563   57459\n35342   33277\n29419   27070\n22242   37042\n81264   45944\n27706   18763\n11777   17623\n96931   30714\n27765   80535\n65779   66518\n82921   19432\n87744   43619\n85543   40341\n56196   81132\n34774   97741\n93073   61787\n37699   62712\n45701   81380\n60801   76363\n66024   25646\n38321   50162\n32244   10468\n95866   29173\n91365   37520\n96047   11889\n60690   63193\n40819   47227\n19229   63551\n56978   27070\n84539   43393\n50724   59209\n90639   67420\n70374   28146\n83465   27150\n67309   61321\n56678   42545\n91876   78117\n11246   81868\n66054   83337\n40614   69158\n56899   37042\n65744   20551\n80749   37042\n74619   10468\n60988   76287\n84866   60034\n45318   49196\n14541   60910\n79263   35253\n48847   58067\n73082   24937\n79835   48742\n62446   39600\n62036   62719\n13498   71733\n18172   81168\n35258   59209\n60068   38731\n43622   33109\n23059   12770\n61060   43807\n45296   76363\n31310   72036\n69945   10468\n89043   62946\n44661   96601\n32843   10468\n83953   61321\n44774   43897\n47310   48153\n96064   35936\n79098   27177\n11333   76324\n31875   27736\n92000   60034\n60969   96903\n37597   73631\n97194   20187\n90624   70413\n15881   59845\n29211   22488\n19865   95805\n37093   27070\n85746   17347\n88886   46767\n94576   81868\n59784   19770\n98263   75790\n47612   62157\n27380   91120\n33552   16758\n72012   80611\n18549   85133\n23250   70963\n43410   85770\n55986   33277\n62202   20187\n86252   81868\n76363   81168\n39103   67989\n94626   14656\n11792   43619\n62872   29173\n66617   16770\n76923   " <> ...}
+```
+
+### Code
+
+```elixir
+defmodule Parser do
+  def parse(puzzle_input) do
+    puzzle_input
+    |> String.split("\n", trim: true)
+    |> Enum.map(fn line ->
+      [l, r] = line |> String.split() |> Enum.map(&String.to_integer/1)
+      {l, r}
+    end)
+    |> Enum.unzip()
+  end
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:module, Parser, <<70, 79, 82, 49, 0, 0, 8, ...>>, {:parse, 1}}
+```
+
+### Test Parser
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule ParserTest do
+  use ExUnit.Case, async: true
+  import Parser
+
+  @input """
+  1 6
+  5 4
+  3 2
+  """
+
+  @expected {[1, 5, 3], [6, 4, 2]}
+
+  test "parse test" do
+    actual = parse(@input)
+    assert actual == @expected
+  end
+end
+
+ExUnit.run()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+Running ExUnit with seed: 623993, max_cases: 8
+
+.
+Finished in 0.00 seconds (0.00s async, 0.00s sync)
+1 test, 0 failures
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+%{total: 1, skipped: 0, failures: 0, excluded: 0}
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Part One
+
+### Code
+
+```elixir
+defmodule PartOne do
+  def resolve(input) do
+    IO.puts("--- Part One ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+      input
+      |> then(fn {left, right} ->
+        sorted_left = Enum.sort(left)
+        sorted_right = Enum.sort(right)
+        Enum.zip(sorted_left, sorted_right)
+      end)
+      |> Enum.map(fn {l, r} -> abs(l - r) end)
+      |> Enum.sum()
+  end
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:module, PartOne, <<70, 79, 82, 49, 0, 0, 10, ...>>, {:run, 1}}
+```
+
+### Tests
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartOneTest do
+  use ExUnit.Case, async: true
+  import PartOne
+
+  @input {[3, 4, 2, 1, 3, 3], [4, 3, 5, 3, 9, 3]}
+  @expected 11
+
+  test "part one" do
+    actual = run(@input)
+    assert actual == @expected
+  end
+end
+
+ExUnit.run()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+Running ExUnit with seed: 623993, max_cases: 8
+
+.
+Finished in 0.00 seconds (0.00s async, 0.00s sync)
+1 test, 0 failures
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+%{total: 1, skipped: 0, failures: 0, excluded: 0}
+```
+
+### Solution
+
+```elixir
+PartOne.resolve(Parser.parse(puzzle_input))
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+--- Part One ---
+Result: 2176849
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+:ok
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Part Two
+
+We now need to calculate how many times a number from teh left list appears in the right list.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartTwo do
+  def resolve(input) do
+    IO.puts("--- Part Two ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    {left, right} = input
+
+    right_counts = Enum.frequencies(right)
+    
+    left
+    |> Enum.map(fn n ->
+      case Map.get(right_counts, n) do
+        nil -> 0
+        count -> n * count
+      end
+    end)
+    |> Enum.sum()
+  end
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:module, PartTwo, <<70, 79, 82, 49, 0, 0, 10, ...>>, {:run, 1}}
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartTwoTest do
+  use ExUnit.Case, async: true
+  import PartTwo
+
+  @input {[3, 4, 2, 1, 3, 3], [4, 3, 5, 3, 9, 3]}
+  @expected 31
+
+  test "part one" do
+    actual = run(@input)
+    assert actual == @expected
+  end
+end
+
+ExUnit.run()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+Running ExUnit with seed: 623993, max_cases: 8
+
+.
+Finished in 0.00 seconds (0.00s async, 0.00s sync)
+1 test, 0 failures
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+%{total: 1, skipped: 0, failures: 0, excluded: 0}
+```
+
+### Solution
+
+```elixir
+PartTwo.resolve(Parser.parse(puzzle_input))
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+--- Part Two ---
+Result: 23384288
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+:ok
+```
+
+<!-- livebook:{"offset":8987,"stamp":{"token":"XCP.Xa5Pe568lbVCk2I77hVBaCNtZqnwPIQSk66mY2Py70muo35-9W-kNFd8BWBJRBLkfq9QgBufRXcJT5jZ1lvjpDOcsmpn28TBDZG1erkWJT13vjjFHFc","version":2}} -->
